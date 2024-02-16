@@ -1,0 +1,46 @@
+version: "3.5"
+
+services:
+  app:
+    image: vaultwarden/server:alpine
+    restart: unless-stopped
+    environment:
+      - ADMIN_TOKEN
+      - SIGNUPS_ALLOWED
+      - LOG_LEVEL
+      - PUSH_ENABLED
+      - PUSH_INSTALLATION_ID
+      - PUSH_INSTALLATION_KEY
+      - DATABASE_URL=postgresql://vaultwarden:vaultwarden@db/vaultwarden
+    volumes:
+      - app_data:/data
+    networks:
+      default:
+      proxy_apps:
+    labels:
+      backups: "true"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=vaultwarden
+      - POSTGRES_PASSWORD=vaultwarden
+      - POSTGRES_DB=vaultwarden
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      default:
+    labels:
+      backups: "true"
+
+volumes:
+  app_data:
+  db_data:
+
+networks:
+  proxy_apps:
+    name: proxy_apps
+    external: true

@@ -29,22 +29,13 @@ services:
       - POSTGRES_DB=vaultwarden
     volumes:
       - db_data:/var/lib/postgresql/data
-      - $PWD/backup.sh:/scripts/backup.sh:ro
     networks:
       default:
     labels:
+      ofelia.restart: "true"
       ofelia.enabled: "true"
-      ofelia.job-exec.backupcron.schedule: "0 0 1 * * *"
-      ofelia.job-exec.backupcron.command: "sh /scripts/backup.sh"
-
-  cron:
-    image: mcuadros/ofelia:latest
-    depends_on:
-      - db
-    command: daemon --docker -f label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      ofelia.job-exec.vaultwardendbbackup.schedule: "0 0 1 * * *"
+      ofelia.job-exec.vaultwardendbbackup.command: "sh -c 'pg_dumpall -U vaultwarden -f /var/lib/postgresql/data/backup.sql'"
 
 volumes:
   app_data:

@@ -12,6 +12,7 @@ services:
       - PUSH_INSTALLATION_ID
       - PUSH_INSTALLATION_KEY
       - DATABASE_URL=postgresql://vaultwarden:vaultwarden@db/vaultwarden
+      - EXPERIMENTAL_CLIENT_FEATURE_FLAGS
     volumes:
       - app_data:/data
     networks:

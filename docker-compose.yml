@@ -34,7 +34,7 @@ services:
       ofelia.restart: "true"
       ofelia.enabled: "true"
       ofelia.job-exec.vaultwardendbbackup.schedule: "0 0 1 * * *"
-      ofelia.job-exec.vaultwardendbbackup.command: "sh -c 'pg_dumpall -U vaultwarden -f /var/lib/postgresql/data/backup.sql'"
+      ofelia.job-exec.vaultwardendbbackup.command: "sh -c 'pg_dumpall -U vaultwarden -f /var/lib/postgresql/backup.sql'"
 
 volumes:
   app_data:

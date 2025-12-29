@@ -1,6 +1,6 @@
 services:
   app:
-    image: vaultwarden/server:alpine
+    image: vaultwarden/server:latest-alpine
     restart: unless-stopped
     environment:
       - ADMIN_TOKEN
